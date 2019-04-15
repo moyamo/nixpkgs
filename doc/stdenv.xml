@@ -1666,6 +1666,18 @@ installTargets = "install-bin install-doc";</programlisting>
     </varlistentry>
     <varlistentry>
      <term>
+      <varname>dontPruneLibtoolFiles</varname>
+     </term>
+     <listitem>
+      <para>
+       If set, libtool <literal>.la</literal> files associated with shared
+       libraries won't have their <literal>dependency_libs</literal> field
+       cleared.
+      </para>
+     </listitem>
+    </varlistentry>
+    <varlistentry>
+     <term>
       <varname>forceShare</varname>
      </term>
      <listitem>
@@ -1800,7 +1812,7 @@ set debug-file-directory ~/.nix-profile/lib/debug
      <listitem>
       <para>
        A list of dependencies used by the phase. This gets included in
-       <varname>buildInputs</varname> when <varname>doInstallCheck</varname> is
+       <varname>nativeBuildInputs</varname> when <varname>doInstallCheck</varname> is
        set.
       </para>
      </listitem>
@@ -2728,9 +2740,9 @@ addEnvHooks "$hostOffset" myBashFunction
      <listitem>
        <para>
 	 Overrides the configure, build, and install phases. This will run the
-	 "waf" script used by many projects. If waf doesn’t exist, it will copy
-	 the version of waf available in Nixpkgs wafFlags can be used to pass
-	 flags to the waf script.
+	 "waf" script used by many projects.  If wafPath (default ./waf)
+	 doesn’t exist, it will copy the version of waf available in Nixpkgs.
+	 wafFlags can be used to pass flags to the waf script.
       </para>
      </listitem>
     </varlistentry>

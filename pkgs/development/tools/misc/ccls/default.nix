@@ -1,15 +1,15 @@
 { stdenv, fetchFromGitHub, makeWrapper
-, cmake, llvmPackages, rapidjson }:
+, cmake, llvmPackages, rapidjson, runtimeShell }:
 
 stdenv.mkDerivation rec {
   name    = "ccls-${version}";
-  version = "0.20181225.7";
+  version = "0.20181225.8";
 
   src = fetchFromGitHub {
     owner = "MaskRay";
     repo = "ccls";
     rev = version;
-    sha256 = "1qgb2nk4nsgbx4qwymwlzi202daskk536a5l877fsp878jpp61cm";
+    sha256 = "05vih8wi2lzp4zqlqd18fs3va6s8p74ws8sx7vwpcc8vcsdzq5w9";
   };
 
   nativeBuildInputs = [ cmake makeWrapper ];
@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
 
   cmakeFlags = [ "-DSYSTEM_CLANG=ON" ];
 
-  shell = stdenv.shell;
+  shell = runtimeShell;
   postFixup = ''
     # We need to tell ccls where to find the standard library headers.
 

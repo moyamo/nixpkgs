@@ -60,7 +60,16 @@ let
     qtdeclarative = [ ./qtdeclarative.patch ];
     qtscript = [ ./qtscript.patch ];
     qtserialport = [ ./qtserialport.patch ];
-    qtwebkit = [ ./qtwebkit.patch ];
+    qtwebengine = [
+      ./qtwebengine-no-build-skip.patch
+      ./qtwebengine-CVE-2019-5786.patch
+    ]
+      ++ optional stdenv.isDarwin ./qtwebengine-darwin-no-platform-check.patch;
+    qtwebkit = [ ./qtwebkit.patch ]
+      ++ optionals stdenv.isDarwin [
+        ./qtwebkit-darwin-no-readline.patch
+        ./qtwebkit-darwin-no-qos-classes.patch
+      ];
   };
 
   mkDerivation =
@@ -89,7 +98,9 @@ let
       };
 
       qtcharts = callPackage ../modules/qtcharts.nix {};
-      qtconnectivity = callPackage ../modules/qtconnectivity.nix {};
+      qtconnectivity = callPackage ../modules/qtconnectivity.nix {
+        inherit cf-private;
+      };
       qtdeclarative = callPackage ../modules/qtdeclarative.nix {};
       qtdoc = callPackage ../modules/qtdoc.nix {};
       qtgraphicaleffects = callPackage ../modules/qtgraphicaleffects.nix {};
